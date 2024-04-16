@@ -9,7 +9,7 @@
 {% endblock css %}
 
 {% block conteudo %}
-    <h1>Pagina login</h1>
+    <!-- <h1>Pagina login</h1> -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-md d-flex justify-content-center">
@@ -23,7 +23,7 @@
                     <hr>
                     
                     <form action="#" method="POST">
-                        <h2 class="fonte-destaque1">Logar</h2>
+                        <h2 class="fonte-destaque1">Faça seu login</h2>
                         {% if messages %}
                             <br>
                             {% for message in messages %}
@@ -46,8 +46,8 @@
                     </form>
                 </div>
             </div>
-            <div class="col-md bg-main d-flex justify-content-center align-items-center">
-                <img src="{% static 'usuarios/img/ilustracao.png' %}" alt="">
+            <div class="col-md d-flex justify-content-center align-items-center" id="logo-aside">
+                <img src="{% static 'img/ilustracao.png' %}" alt="">
             </div>
         </div>
     </div>

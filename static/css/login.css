@@ -2,3 +2,9 @@ h2{
     text-align: center;
     color: hsl(271, 78%, 62%);
 }
+
+
+#logo-aside{
+    background: hsl(198, 52%, 44%);
+    height: 100vh;
+}
