@@ -3,14 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}
-      
-    {% endblock title %}</title>
+    {% block title %}
+          Titulo da Página
+        {% endblock title %}
+    </title>
+        {% block css %}
+          
+        {% endblock css %}
+
+        {% block script %}
+        
+        {% endblock script %}
 </head>
 <body>
-    {% block titulo %}
+    {% block head %}
       
-    {% endblock titulo %}
+    {% endblock head %}
 
     {% block conteudo %}
       
@@ -19,10 +27,6 @@
     {% block footer %}
       
     {% endblock footer %}
-
-    {% block script %}
-      
-    {% endblock script %}
 
 </body>
 </html>

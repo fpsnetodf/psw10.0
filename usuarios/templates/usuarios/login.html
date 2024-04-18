@@ -23,6 +23,8 @@
                     <hr>
                     
                     <form action="#" method="POST">
+                        {% csrf_token %}
+
                         <h2 class="fonte-destaque1">Faça seu login</h2>
                         {% if messages %}
                             <br>
