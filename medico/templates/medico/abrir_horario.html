@@ -1,17 +1,17 @@
 {% extends "medico/modelo.html" %}
 {% load static %}
-{% block 'head' %}
+{% block css %}
     <link rel="stylesheet" href="{% static 'medicos/css/abrir_horario.css' %}">
     <link rel="stylesheet" href="{% static 'usuarios/css/usuarios.css' %}">
     <link rel="stylesheet" href="{% static 'medicos/css/cadastro_medico.css' %}">
-{% endblock 'head' %}
-{% block 'body' %}
+{% endblock css %}
+{% block conteudo %}
     <div class="container">
         <br><br>
         <div class="row">
-            <div class="col-md-8">
-                <img src=""  class="foto-perfil" alt="">
-                <label style="margin-left: 30px; font-size: 25px" class="p-bold">Olá, <span class="color-dark">{{request.user.username}}</span></label>
+            <div class="col-md-6">
+                <img src="{{ dados_medicos.foto.url }}"  class="foto-perfil" alt="">
+                <label class="fs-3">Olá, <span class="text-success">{{request.user.username|capfirst}}</span></label>
                 
                 <br>
                 {% if messages %}
@@ -23,21 +23,25 @@
                     {% endfor %}
                 {% endif %}
                 <br>
-                <p style="font-size: 25px" class="p-bold">Abrir horários para consultas</p>
+                <p  class="fs-4">Abrir horários para consultas:</p>
                 <hr>
-                <form action="#" method="POST">
-Aula 22                    <label for="">Escolher data:</label>
+                <form action="#" method="POST">{% csrf_token %}
+                  <label for="">Escolher data:</label>
                     <input type="datetime-local" name="data" class="form-control shadow-main-color">
                     <br>
                     <input type="submit" value="Salvar" class="btn btn-success btn-dark-color">
                 </form>
             </div>
+            <div class="col-md " >
+                <div class="vr h-100"></div>
+              </div>
             <div class="col-md-4">
-                <p style="font-size: 25px" class="p-bold">Seus horários:</p>
+                <p  class="fs-5 ">Seus horários:</p>
                 <ul class="list-group">
                     <li>X</li>
                 </ul>
             </div>
+
         </div>
     </div>
-{% endblock 'body' %}
+{% endblock conteudo %}
