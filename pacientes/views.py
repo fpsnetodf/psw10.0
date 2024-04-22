@@ -40,6 +40,23 @@ def agendar_horario(request, id_data_aberta):
         add_message(request, constants.SUCCESS, 'Horário agendado com sucesso.')
         return redirect('/pacientes/minhas_consultas/')
     
+def minhas_consultas(request):
+    if request.method == "GET":
+        #TODO: desenvolver filtros
+        minhas_consultas = Consulta.objects.filter(paciente=request.user).filter(data_aberta__data__gte=datetime.now())
+        return render(request, 'minhas_consultas.html', {'minhas_consultas': minhas_consultas})
+    
+
+def consultas_medico(request):
+    if not is_medico(request.user):
+        add_message(request, constants.WARNING, 'Somente médicos podem acessar essa página.')
+        return redirect('/usuarios/sair')
+    
+    hoje = datetime.now().date()
+    consultas_hoje = Consulta.objects.filter(data_aberta__user=request.user).filter(data_aberta__data__gte=hoje).filter(data_aberta__data__lt=hoje + timedelta(days=1))
+    consultas_restantes = Consulta.objects.exclude(id__in=consultas_hoje.values('id'))
+    return render(request, 'consultas_medico.html', {'consultas_hoje': consultas_hoje, 'consultas_restantes': consultas_restantes, 'is_medico': is_medico(request.user)})
+    
 # def paciente(request, id):
 #     if request.method == 'GET':
 #         return HttpResponse(f"O id é: {str(id)}")
