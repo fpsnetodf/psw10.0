@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "medico/modelo.html" %}
 {% load static %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/abrir_horario.css' %}">
@@ -21,8 +21,7 @@
                     {% for especialidade in especialidades %}
                         <input type="checkbox" name="especialidades" value="{{especialidade.id}}">
                         <span class="badge bg-secondary">
-                            {{especialidade}}
-                        
+                            {{especialidade}}                        
                         </span>
                     {% endfor %}
                     
@@ -44,7 +43,7 @@
                                 </div>
                             </div>  
                             <p><i class="bi bi-map icon-main"></i>&nbsp&nbsp{{medico.rua}}, {{medico.numero}}.</p>
-                            % if medico.proxima_data %}
+                            {% if medico.proxima_data %}
                                 {{medico.proxima_data}}
                             {% else %}
                                 Aguarde uma data.
