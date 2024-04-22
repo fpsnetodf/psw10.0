@@ -21,11 +21,9 @@
                         <label class="text-center text-success">HEALING</label>
                     </section>
                     <hr>
-                    
-                    <form action="#" method="POST">
+                    <form action="{% url 'login' %}" method="POST">
                         {% csrf_token %}
-
-                        <h2 class="fonte-destaque1">Faça seu login</h2>
+                     <h2 class="fonte-destaque1">Faça seu login</h2>
                         {% if messages %}
                             <br>
                             {% for message in messages %}

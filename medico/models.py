@@ -4,14 +4,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-def is_medico(user):
-    return DadosMedico.objects.filter(user=user).exists()
-
 class Especialidades(models.Model):
-    Especialidade = models.CharField(max_length=100)
-
-    def __str__(self) -> str:
-        return self.Especialidade
+    especialidade = models.CharField(max_length=100)
+    icone = models.ImageField(upload_to="icones", null=True, blank=True)
+    def __str__(self):
+        return self.especialidade
     
 class DadosMedico(models.Model):
     crm = models.CharField(max_length=30)
@@ -20,23 +17,19 @@ class DadosMedico(models.Model):
     rua = models.CharField(max_length=100)
     bairro = models.CharField(max_length=100)
     numero = models.IntegerField()
-    rg = models.ImageField(upload_to='rgs')
+    rg = models.ImageField(upload_to="rgs")
     cedula_identidade_medica = models.ImageField(upload_to='cim')
-    foto = models.ImageField(upload_to='fotos_perfil')
-    descricao = models.TextField()
-    valor_consulta = models.FloatField(default=100)
+    foto = models.ImageField(upload_to="fotos_perfil")
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    especialidade = models.ForeignKey(Especialidades, on_delete=models.DO_NOTHING)
-
-
+    descricao = models.TextField(null=True, blank=True)
+    especialidade = models.ForeignKey(Especialidades, on_delete=models.DO_NOTHING, null=True, blank=True)
+    valor_consulta = models.FloatField(default=100)
     def __str__(self):
         return self.user.username
     
-
 class DatasAbertas(models.Model):
     data = models.DateTimeField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     agendado = models.BooleanField(default=False)
-
-    def __str__(self) :
+    def __str__(self):
         return str(self.data)

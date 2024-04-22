@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from medico.models import DatasAbertas
+from datetime import datetime
 
 # Create your models here.
 
@@ -18,4 +19,7 @@ class Consulta(models.Model):
 
     def __str__(self):
         return self.paciente.username
+    
+    def proxima_data(self):
+        proxima_data = DatasAbertas.objects.filter(user=self.user).filter(data__gt=datetime.now()).filter(agendado=False).order_by('data').first()
 
