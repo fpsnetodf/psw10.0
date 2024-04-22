@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                     {% for consulta in minhas_consultas  %}    <tr>
-                            <td><a href="#">Dr(a). {{consulta.data_aberta.user}}</a></td>
+                            <td><a href="{% url 'consulta_area_medico' consulta.id %}">Dr(a). {{consulta.data_aberta.user}}</a></td>
                             <td>{{consulta.get_status_display}}</td>
                             <td>{{consulta.data_aberta.data}}</td>
                         </tr>

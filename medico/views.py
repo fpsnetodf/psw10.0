@@ -73,7 +73,7 @@ def abrir_horario(request):
     if request.method == "GET":
         dados_medicos = DadosMedico.objects.get(user=request.user)
         datas_abertas = DatasAbertas.objects.filter(user=request.user)
-        return render(request, 'abrir_horario.html', {'dados_medicos': dados_medicos, 'datas_abertas': datas_abertas})
+        return render(request, 'abrir_horario.html', {'dados_medicos': dados_medicos, 'datas_abertas': datas_abertas, 'is_medico': is_medico(request.user)})
     elif request.method == "POST":
         data = request.POST.get('data')
         data_formatada = datetime.strptime(data, "%Y-%m-%dT%H:%M")
@@ -97,12 +97,32 @@ def consultas_medico(request):
 
     consultas_hoje = Consulta.objects.filter(data_aberta__user=request.user).filter(data_aberta__data__gte=hoje)
     consultas_restantes = Consulta.objects.exclude(id__in=consultas_hoje.values('id'))
-    return render(request, 'medico/consultas_medico.html', {'consultas_hoje':consultas_hoje, 'consultas_restantes': consultas_restantes})
+    return render(request, 'medico/consultas_medico.html', {'consultas_hoje':consultas_hoje, 'consultas_restantes': consultas_restantes, 'is_medico': is_medico(request.user)})
 
-def consulta_area_medico(request, id_consulta):
+def consulta_area_medico(request, id_consulta):    
     if not is_medico(request.user):
-        add_message(request, constants.WARNING, 'Somente médicos pode abrir horários')
+        add_message(request, constants.WARNING, 'Somente médicos podem acessar essa página.')
         return redirect('/usuarios/sair')
-    if request.method == 'GET':
+    
+
+    if request.method == "GET":
         consulta = Consulta.objects.get(id=id_consulta)
-        return render (request, 'consulta_area_medico.html', {'consulta':consulta})
+        return render(request, 'consulta_area_medico.html', {'consulta': consulta,'is_medico': is_medico(request.user)}) 
+    elif request.method == "POST":
+        # Inicializa a consulta + link da chamada
+        consulta = Consulta.objects.get(id=id_consulta)
+        link = request.POST.get('link')
+
+        if consulta.status == 'C':
+            add_message(request, constants.WARNING, 'Essa consulta já foi cancelada, você não pode inicia-la')
+            return redirect(f'/medicos/consulta_area_medico/{id_consulta}')
+        elif consulta.status == "F":
+            add_message(request, constants.WARNING, 'Essa consulta já foi finalizada, você não pode inicia-la')
+            return redirect(f'/medicos/consulta_area_medico/{id_consulta}')
+        
+        consulta.link = link
+        consulta.status = 'I'
+        consulta.save()
+
+        add_message(request, constants.SUCCESS, 'Consulta inicializada com sucesso.')
+        return redirect(f'/medicos/consulta_area_medico/{id_consulta}')
