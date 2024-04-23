@@ -15,7 +15,7 @@
         {% if consulta.status == 'C' %}
             <div class="alert alert-danger" role="alert">Consulta cancelada</div>
         {% elif consulta.status == 'F' %}
-            <div class="alert alert-success" role="alert">Consulta finalizada</div> 
+            <div class="alert alert-success{% if consulta.status == 'F' %}color-dark{% endif %}" role="alert">Consulta finalizada</div> 
         {% elif consulta.status == 'C' %}
             <div class="alert alert-primary" role="alert">Consulta inicializada, acesse o link imediatamente</div>
         {% endif %}
@@ -53,8 +53,14 @@
                 <hr>
                 <h3 class="p-bold">Como acessar ?</h3>
                 <p>No horário da consulta acesse o link disponível abaixo</p>
-                
-                <a href="#" class="btn btn-success btn-dark-color btn-lg disabled" >Acessar consulta</a>
+                {% if consulta.status == 'I' and consulta.link %}
+                    <a href="{{consulta.link}}"  class="btn btn-success btn-dark-color btn-lg" >Acessar consulta</a>
+                {% else %}
+
+                    <a href="#"  class="btn btn-success btn-dark-color btn-lg disabled" >Acessar consulta</a>
+
+                {% endif %}                          
+               
                 
                 <hr>
                 <h3 class="p-bold">Meus documentos</h3>

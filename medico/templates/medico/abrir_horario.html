@@ -1,9 +1,9 @@
 {% extends "medico/modelo.html" %}
 {% load static %}
 {% block css %}
-    <link rel="stylesheet" href="{% static 'medicos/css/abrir_horario.css' %}">
-    <link rel="stylesheet" href="{% static 'usuarios/css/usuarios.css' %}">
-    <link rel="stylesheet" href="{% static 'medicos/css/cadastro_medico.css' %}">
+    <link rel="stylesheet" href="{% static 'css/abrir_horario.css' %}">
+    <link rel="stylesheet" href="{% static 'css/usuarios.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cadastro_medico.css' %}">
 {% endblock css %}
 {% block conteudo %}
     <div class="container">
@@ -25,7 +25,7 @@
                 <br>
                 <p  class="fs-4">Abrir horários para consultas:</p>
                 <hr>
-                <form action="#" method="POST">{% csrf_token %}
+                <form action="{% url 'abrir_horario' %}" method="POST">{% csrf_token %}
                   <label for="">Escolher data:</label>
                     <input type="datetime-local" name="data" class="form-control shadow-main-color">
                     <br>
@@ -38,7 +38,9 @@
             <div class="col-md-4">
                 <p  class="fs-5 ">Seus horários:</p>
                 <ul class="list-group">
-                    <li>X</li>
+                    {% for data in datas_abertas  %}
+                        <li class="list-group-item">{{data}}</li>
+                    {% endfor %}
                 </ul>
             </div>
 

@@ -28,6 +28,15 @@
  <br>
 <div class="row">
  <div class="col-md">
+  {% if messages %}
+    <br>
+      {% for message in messages %}
+          <section class="alert {{message.tags}}">
+              {{message}}
+          </section>
+      {% endfor %}
+  {% endif %}
+
  <label for="">Senha</label>
  <input type="password" name="senha" class="form-control" placeholder="Digite sua senha ...">
  </div>
